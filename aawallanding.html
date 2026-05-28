@@ -1,0 +1,203 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CarDekho — Landing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Barlow', sans-serif;
+      background: #111;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    /* Full-viewport hero */
+    .hero {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+    }
+
+    /* Maruti car photo as background */
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=80');
+      background-size: cover;
+      background-position: center right;
+    }
+
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(30,58,138,0.36) 0%,
+        rgba(234,88,12,0.28) 100%
+      );
+      mix-blend-mode: multiply;
+    }
+
+    /* Dark overlay, heavy left → transparent right, matching the reference */
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        100deg,
+        rgba(10,10,10,0.88) 0%,
+        rgba(10,10,10,0.65) 35%,
+        rgba(10,10,10,0.15) 62%,
+        rgba(10,10,10,0.0) 100%
+      );
+    }
+
+    /* Content block on the left */
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      padding: 0 64px;
+      max-width: 580px;
+    }
+
+    .hero-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(38px, 5.5vw, 68px);
+      font-weight: 900;
+      line-height: 1.0;
+      text-transform: uppercase;
+      letter-spacing: -0.5px;
+      margin-bottom: 14px;
+    }
+
+    .hero-sub {
+      font-size: 15px;
+      line-height: 1.75;
+      color: rgba(255,255,255,0.70);
+      max-width: 420px;
+      margin-bottom: 28px;
+    }
+
+    /* Two CTA buttons side by side */
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 36px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 8px;
+      padding: 13px 26px;
+      font-family: 'Barlow', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: transform 0.18s;
+      border: none;
+      text-decoration: none;
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #ea580c 0%, #1e3a8a 100%);
+      color: #fff;
+    }
+
+    .btn-primary:hover { opacity: 0.9; }
+
+    .btn-secondary {
+      display: none;
+    }
+
+    /* Two small stat badges below the buttons */
+    .hero-badges {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .badge-icon {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: #f59e0b;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .badge-icon svg {
+      width: 18px; height: 18px;
+      fill: #0d0d0d;
+    }
+
+    .badge-text strong {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .badge-text span {
+      font-size: 12px;
+      color: rgba(255,255,255,0.60);
+    }
+
+    @media (max-width: 600px) {
+      .hero-content { padding: 0 28px; }
+    }
+  </style>
+</head>
+<body>
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+      <h1 class="hero-title">Lihat Data Mobil<br>Dengan Mudah</h1>
+      <p class="hero-sub">Jelajahi dashboard dengan ringkasan KPI, tren harga, dan analisis lengkap. Temukan insight penting dari dataset CarDekho (1992–2020).</p>
+
+      <div class="hero-actions">
+        <a href="/proses/index.html" class="btn btn-primary">Buka Dashboard</a>
+      </div>
+
+      <div class="hero-badges">
+        <div class="badge">
+          <div class="badge-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          </div>
+          <div class="badge-text">
+            <strong>Dashboard Interaktif</strong>
+            <span>KPI dan tren real-time</span>
+          </div>
+        </div>
+        <div class="badge">
+          <div class="badge-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+          </div>
+          <div class="badge-text">
+            <strong>Dataset Lengkap</strong>
+            <span>30 tahun data mobil</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
+</html>

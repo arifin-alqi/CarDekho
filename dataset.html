@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CarDekho — Dataset Lengkap</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<div class="app-wrapper">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M19 17H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h2l2-3h6l2 3h2a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2z"/><circle cx="8.5" cy="14.5" r="1.5"/><circle cx="15.5" cy="14.5" r="1.5"/></svg></div>
+      <div class="logo-text">CarDekho<span>Analytics BI</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Menu Utama</div>
+      <a href="index.html" class="nav-item"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg></span>Dashboard</a>
+      <a href="dataset.html" class="nav-item active"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>Dataset & Filter</a>
+      <a href="analysis.html" class="nav-item"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>Analisis OLAP</a>
+
+      <div class="nav-section-label" style="margin-top:10px;">Filter Cepat</div>
+      <a href="#" class="nav-item" onclick="setQuick('fuel','Diesel');return false;"><span class="nav-icon" style="font-size:9px;color:#667eea;">●</span>Hanya Diesel</a>
+      <a href="#" class="nav-item" onclick="setQuick('fuel','Petrol');return false;"><span class="nav-icon" style="font-size:9px;color:#ed8936;">●</span>Hanya Petrol</a>
+      <a href="#" class="nav-item" onclick="setQuick('transmission','Automatic');return false;"><span class="nav-icon" style="font-size:9px;color:#38b2ac;">●</span>Hanya Automatic</a>
+      <a href="#" class="nav-item" onclick="setQuick('owner','First Owner');return false;"><span class="nav-icon" style="font-size:9px;color:#9f7aea;">●</span>First Owner</a>
+      <a href="#" class="nav-item" onclick="setQuick('seller_type','Dealer');return false;"><span class="nav-icon" style="font-size:9px;color:#48bb78;">●</span>Hanya Dealer</a>
+      <a href="#" class="nav-item" onclick="resetFilters();return false;"><span class="nav-icon" style="font-size:13px;color:var(--brand);">↺</span>Reset Filter</a>
+    </nav>
+    <div class="sidebar-footer">CarDekho BI Dashboard</div>
+  </aside>
+
+  <div class="main-content">
+    <header class="topbar">
+      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div class="topbar-title">Dataset <span>Lengkap</span></div>
+        <nav style="display:flex;gap:4px;margin-left:16px;">
+          <a href="index.html" style="padding:5px 12px;border-radius:5px;font-size:12px;font-weight:600;color:rgba(255,255,255,0.75);">Dashboard</a>
+          <a href="dataset.html" style="padding:5px 12px;border-radius:5px;font-size:12px;font-weight:700;background:rgba(255,255,255,0.2);color:#fff;">Dataset</a>
+          <a href="analysis.html" style="padding:5px 12px;border-radius:5px;font-size:12px;font-weight:600;color:rgba(255,255,255,0.75);">OLAP</a>
+        </nav>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-badge"><div class="dot"></div><span id="top-count">Memuat…</span></div>
+      </div>
+    </header>
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb-bar">
+      <div style="display:flex;align-items:center;gap:5px;">
+        <a href="index.html">Dashboard</a><span>›</span><span style="color:var(--text-muted);">Dataset & Filter</span>
+      </div>
+    </div>
+
+    <main class="page-content">
+      <div class="kelompok-banner">
+        <span class="kbadge">📋 Dataset Statis · car_details</span>
+        <span class="knames">Kaggle · <span>CarDekho India</span> · Listing 1992–2020</span>
+      </div>
+
+      <div class="page-heading">
+        <h1>Dataset <em>CarDekho India</em></h1>
+        <p>Data statis dari dataset Kaggle · Gunakan filter & pencarian untuk eksplorasi</p>
+      </div>
+
+      <!-- FILTER STATS -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;">
+        <div class="mini-card" style="padding:14px 16px;border-top:3px solid var(--brand);">
+          <div class="card-label">Total Data</div>
+          <div class="card-value card-accent" id="fs-total" style="font-size:24px;">—</div>
+          <div class="card-sub">rows di database</div>
+        </div>
+        <div class="mini-card" style="padding:14px 16px;border-top:3px solid var(--teal);">
+          <div class="card-label">Menampilkan</div>
+          <div class="card-value card-green" id="fs-showing" style="font-size:24px;">—</div>
+          <div class="card-sub">hasil filter saat ini</div>
+        </div>
+        <div class="mini-card" style="padding:14px 16px;border-top:3px solid #2b6cb0;">
+          <div class="card-label">Halaman</div>
+          <div class="card-value card-blue" id="fs-page" style="font-size:24px;">—</div>
+          <div class="card-sub" id="fs-total-page">dari — halaman</div>
+        </div>
+        <div class="mini-card" style="padding:14px 16px;border-top:3px solid #a0aec0;">
+          <div class="card-label">Filter Aktif</div>
+          <div class="card-value" id="fs-filters" style="font-size:13px;color:var(--text-muted);">Tidak ada</div>
+          <div class="card-sub">kondisi aktif</div>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <div class="table-toolbar">
+          <div class="toolbar-left">
+            <div class="search-wrap">
+              <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" class="search-input" id="search-input" placeholder="Cari nama atau brand…"/>
+            </div>
+            <select class="filter-select" id="filter-fuel">
+              <option value="">Semua BBM</option>
+              <option>Diesel</option><option>Petrol</option><option>CNG</option><option>LPG</option><option>Electric</option>
+            </select>
+            <select class="filter-select" id="filter-transmission">
+              <option value="">Semua Transmisi</option>
+              <option>Manual</option><option>Automatic</option>
+            </select>
+            <select class="filter-select" id="filter-seller">
+              <option value="">Semua Penjual</option>
+              <option>Individual</option><option>Dealer</option><option value="Trustmark Dealer">Trustmark Dealer</option>
+            </select>
+            <select class="filter-select" id="filter-owner">
+              <option value="">Semua Pemilik</option>
+              <option>First Owner</option><option>Second Owner</option><option>Third Owner</option><option value="Fourth &amp; Above Owner">Fourth & Above</option>
+            </select>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <label style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;">Harga</label>
+              <input type="number" id="filter-price-min" class="filter-select" placeholder="Min (Rp)" style="width:120px;"/>
+              <span style="color:var(--text-faint);">–</span>
+              <input type="number" id="filter-price-max" class="filter-select" placeholder="Max (Rp)" style="width:120px;"/>
+            </div>
+          </div>
+          <div class="toolbar-right">
+            <button class="btn btn-ghost" onclick="resetFilters()">↺ Reset</button>
+            <select class="filter-select" id="sort-col">
+              <option value="id|desc">Default</option>
+              <option value="selling_price|desc">Harga ↓</option>
+              <option value="selling_price|asc">Harga ↑</option>
+              <option value="km_driven|asc">KM ↑</option>
+              <option value="km_driven|desc">KM ↓</option>
+              <option value="year|desc">Tahun ↓</option>
+              <option value="year|asc">Tahun ↑</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th><th>Kendaraan</th><th>Tahun</th><th>Harga Jual</th>
+                <th>KM Tempuh</th><th>BBM</th><th>Transmisi</th><th>Penjual</th><th>Kepemilikan</th>
+              </tr>
+            </thead>
+            <tbody id="dataset-tbody">
+              <tr class="loading-row"><td colspan="9"><div class="spinner"></div><div>Memuat dataset…</div></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="pagination">
+          <div class="pagination-info" id="pag-info">—</div>
+          <div class="pagination-pages">
+            <button class="page-btn" id="btn-prev">‹</button>
+            <span id="pag-pages" style="display:flex;gap:4px;"></span>
+            <button class="page-btn" id="btn-next">›</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="config.js"></script>
+<script src="supabase-client.js"></script>
+<script>
+const PAGE_SIZE = 15;
+let db = null, currentPage = 1, totalRows = 0;
+
+// Cache semua data (fetch sekali, filter di client)
+let _allCache = null;
+
+const hamburger = document.getElementById('hamburger');
+const sidebar   = document.getElementById('sidebar');
+hamburger?.addEventListener('click', e => { e.stopPropagation(); sidebar?.classList.toggle('mobile-open'); });
+document.addEventListener('click', e => {
+  if (sidebar?.classList.contains('mobile-open') && !sidebar.contains(e.target) && !hamburger.contains(e.target))
+    sidebar.classList.remove('mobile-open');
+});
+
+document.addEventListener('DOMContentLoaded', async () => {
+  db = initSupabase();
+  if (!db) return;
+
+  // Fetch semua data sekali via JOIN
+  try {
+    _allCache = await fetchJoined([]);
+  } catch(err) {
+    setEmpty('dataset-tbody', 'Gagal memuat data: ' + err.message, 9);
+    showDbError(err.message);
+    return;
+  }
+
+  setupListeners();
+  fetchAndRender();
+});
+
+function setupListeners() {
+  let debounce;
+  document.getElementById('search-input').addEventListener('input', e => {
+    clearTimeout(debounce);
+    debounce = setTimeout(() => { currentPage=1; fetchAndRender(); }, 300);
+  });
+  ['filter-fuel','filter-transmission','filter-seller','filter-owner','filter-price-min','filter-price-max','sort-col'].forEach(id => {
+    document.getElementById(id)?.addEventListener('change', () => { currentPage=1; fetchAndRender(); });
+    document.getElementById(id)?.addEventListener('input', () => { currentPage=1; fetchAndRender(); });
+  });
+  document.getElementById('btn-prev').addEventListener('click', () => { if(currentPage>1){currentPage--;fetchAndRender();} });
+  document.getElementById('btn-next').addEventListener('click', () => {
+    if(currentPage<Math.ceil(totalRows/PAGE_SIZE)){currentPage++;fetchAndRender();}
+  });
+}
+
+function fetchAndRender() {
+  if (!_allCache) return;
+  setLoading('dataset-tbody', 9);
+
+  const search = document.getElementById('search-input').value.trim().toLowerCase();
+  const fuel   = document.getElementById('filter-fuel').value;
+  const trans  = document.getElementById('filter-transmission').value;
+  const seller = document.getElementById('filter-seller').value;
+  const owner  = document.getElementById('filter-owner').value;
+  const priceMin = parseInt(document.getElementById('filter-price-min').value) || 0;
+  const priceMax = parseInt(document.getElementById('filter-price-max').value) || Infinity;
+  const [sortCol, sortDir] = document.getElementById('sort-col').value.split('|');
+
+  // Filter di client
+  let filtered = _allCache.filter(r => {
+    if (search && !r.name.toLowerCase().includes(search) && !r.brand.toLowerCase().includes(search)) return false;
+    if (fuel   && r.fuel         !== fuel)   return false;
+    if (trans  && r.transmission !== trans)  return false;
+    if (seller && r.seller_type  !== seller) return false;
+    if (owner  && r.owner        !== owner)  return false;
+    if (r.selling_price < priceMin || r.selling_price > priceMax) return false;
+    return true;
+  });
+
+  // Sort di client
+  const sortMap = {
+    'id':'id', 'selling_price':'selling_price', 'km_driven':'km_driven', 'year':'year'
+  };
+  const key = sortMap[sortCol] || 'id';
+  filtered.sort((a,b) => sortDir==='asc' ? (a[key]??0)-(b[key]??0) : (b[key]??0)-(a[key]??0));
+
+  totalRows = filtered.length;
+  const from = (currentPage-1)*PAGE_SIZE;
+  const page = filtered.slice(from, from+PAGE_SIZE);
+
+  setText('top-count', `${totalRows.toLocaleString()} record`);
+  setText('fs-total', totalRows.toLocaleString());
+  setText('fs-showing', page.length.toString());
+  setText('fs-page', currentPage.toString());
+  setText('fs-total-page', `dari ${Math.ceil(totalRows/PAGE_SIZE)} halaman`);
+
+  const activeFilters = [search&&'Nama/Brand', fuel, trans, seller, owner].filter(Boolean);
+  setText('fs-filters', activeFilters.length ? activeFilters.join(', ') : 'Tidak ada');
+
+  const tbody = document.getElementById('dataset-tbody');
+  if (!page.length) { setEmpty('dataset-tbody','Tidak ada data yang cocok',9); return; }
+
+  tbody.innerHTML = page.map((r,i)=>`
+    <tr>
+      <td style="font-size:11px;color:var(--text-faint);font-weight:700;">${from+i+1}</td>
+      <td>
+        <div class="car-name" title="${r.name}">${r.name}</div>
+        <div class="car-brand">${r.brand}</div>
+      </td>
+      <td style="font-weight:800;">${r.year||'—'}</td>
+      <td><span class="price-value">${formatPrice(r.selling_price)}</span></td>
+      <td style="color:var(--text-muted);font-size:12px;">${formatNumber(r.km_driven)} km</td>
+      <td><span class="badge badge-${(r.fuel||'').toLowerCase()}">${r.fuel}</span></td>
+      <td><span class="badge badge-${(r.transmission||'').toLowerCase()}">${r.transmission}</span></td>
+      <td><span class="badge badge-${(r.seller_type||'').toLowerCase().replace(/\s/g,'')}">${r.seller_type}</span></td>
+      <td style="font-size:11.5px;color:var(--text-muted);">${r.owner||'—'}</td>
+    </tr>
+  `).join('');
+
+  renderPagination();
+}
+
+function renderPagination() {
+  const totalPages = Math.ceil(totalRows/PAGE_SIZE);
+  const info = document.getElementById('pag-info');
+  const from = (currentPage-1)*PAGE_SIZE;
+  if (info) info.textContent = `Menampilkan ${from+1}–${Math.min(currentPage*PAGE_SIZE,totalRows)} dari ${totalRows.toLocaleString()} data`;
+
+  const prev = document.getElementById('btn-prev');
+  const next = document.getElementById('btn-next');
+  if (prev) prev.disabled = currentPage<=1;
+  if (next) next.disabled = currentPage>=totalPages;
+
+  const pages = document.getElementById('pag-pages');
+  if (!pages) return;
+  const start = Math.max(1, currentPage-2);
+  const end   = Math.min(totalPages, start+4);
+  pages.innerHTML = '';
+  for (let i=start;i<=end;i++) {
+    const btn = document.createElement('button');
+    btn.className = 'page-btn'+(i===currentPage?' active':'');
+    btn.textContent = i;
+    btn.addEventListener('click', ()=>{ currentPage=i; fetchAndRender(); });
+    pages.appendChild(btn);
+  }
+}
+
+function setQuick(field, value) {
+  const map = { fuel:'filter-fuel', transmission:'filter-transmission', owner:'filter-owner', seller_type:'filter-seller' };
+  const el = document.getElementById(map[field]);
+  if (el) { el.value=value; currentPage=1; fetchAndRender(); }
+}
+function resetFilters() {
+  ['filter-fuel','filter-transmission','filter-seller','filter-owner','filter-price-min','filter-price-max'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.value='';
+  });
+  const si = document.getElementById('search-input'); if(si) si.value='';
+  const sc = document.getElementById('sort-col'); if(sc) sc.value='id|desc';
+  currentPage=1; fetchAndRender();
+}
+</script>
+</body>
+</html>

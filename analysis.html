@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CarDekho — Analisis OLAP</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<div class="app-wrapper">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M19 17H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h2l2-3h6l2 3h2a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2z"/><circle cx="8.5" cy="14.5" r="1.5"/><circle cx="15.5" cy="14.5" r="1.5"/></svg></div>
+      <div class="logo-text">CarDekho<span>Analytics BI</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Menu Utama</div>
+      <a href="index.html" class="nav-item"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="17" height="17"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg></span>Dashboard</a>
+      <a href="dataset.html" class="nav-item"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="17" height="17"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>Dataset & Filter</a>
+      <a href="analysis.html" class="nav-item active"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="17" height="17"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>Analisis OLAP</a>
+      <div class="nav-section-label" style="margin-top:12px;">8 Query OLAP</div>
+      <a href="#" onclick="switchTab('q1',this);return false;" class="nav-item tab-nav active-tab-nav" data-tab="q1"><span class="nav-icon" style="font-size:10px;font-weight:700;color:var(--accent);">Q1</span>Bahan Bakar</a>
+      <a href="#" onclick="switchTab('q2',this);return false;" class="nav-item tab-nav" data-tab="q2"><span class="nav-icon" style="font-size:10px;font-weight:700;color:var(--text-muted);">Q2</span>Transmisi</a>
+      <a href="#" onclick="switchTab('q3',this);return false;" class="nav-item tab-nav" data-tab="q3"><span class="nav-icon" style="font-size:10px;font-weight:700;color:var(--text-muted);">Q3</span>Tren Tahun</a>
+      <a href="#" onclick="switchTab('q4',this);return false;" class="nav-item tab-nav" data-tab="q4"><span class="nav-icon" style="font-size:10px;font-weight:700;color:var(--text-muted);">Q4</span>Tipe Penjual</a>
+      <a href="#" onclick="switchTab('q5',this);return false;" class="nav-item tab-nav" data-tab="q5"><span class="nav-icon" style="font-size:10px;font-weight:700;color:var(--text-muted);">Q5</span>Top Brand</a>
+      <a href="#" onclick="switchTab('q6',this);return false;" class="nav-item tab-nav" data-tab="q6"><span class="nav-icon" style="font-size:10px;font-weight:700;color:var(--text-muted);">Q6</span>Cross Dimensi</a>
+      <a href="#" onclick="switchTab('q7',this);return false;" class="nav-item tab-nav" data-tab="q7"><span class="nav-icon" style="font-size:10px;font-weight:700;color:var(--text-muted);">Q7</span>Analisis Era</a>
+      <a href="#" onclick="switchTab('q8',this);return false;" class="nav-item tab-nav" data-tab="q8"><span class="nav-icon" style="font-size:10px;font-weight:700;color:var(--text-muted);">Q8</span>Custom Analisis</a>
+    </nav>
+    <div class="sidebar-footer">CarDekho BI Dashboard</div>
+  </aside>
+
+  <div class="main-content">
+    <header class="topbar">
+      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div class="topbar-title">Analisis <span>OLAP</span></div>
+        <nav style="display:flex;gap:4px;margin-left:16px;">
+          <a href="index.html" style="padding:5px 12px;border-radius:5px;font-size:12px;font-weight:600;color:rgba(255,255,255,0.75);">Dashboard</a>
+          <a href="dataset.html" style="padding:5px 12px;border-radius:5px;font-size:12px;font-weight:600;color:rgba(255,255,255,0.75);">Dataset</a>
+          <a href="analysis.html" style="padding:5px 12px;border-radius:5px;font-size:12px;font-weight:700;background:rgba(255,255,255,0.2);color:#fff;">OLAP</a>
+        </nav>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-badge"><div class="dot"></div><span>8 Query · Dataset Statis</span></div>
+      </div>
+    </header>
+    <div class="breadcrumb-bar">
+      <div style="display:flex;align-items:center;gap:5px;">
+        <a href="index.html">Dashboard</a><span>›</span><span style="color:var(--text-muted);">Analisis OLAP</span>
+      </div>
+    </div>
+
+    <main class="page-content">
+      <div class="kelompok-banner">
+        <span class="kbadge">📊 8 OLAP Query · Dataset Statis</span>
+        <span class="knames">Semua hasil dihitung dari tabel <span>car_details</span> di dataset</span>
+      </div>
+
+      <!-- TABS -->
+      <div class="analysis-tabs">
+        <button class="tab-btn active" onclick="switchTab('q1',this)">Q1 · BBM</button>
+        <button class="tab-btn" onclick="switchTab('q2',this)">Q2 · Transmisi</button>
+        <button class="tab-btn" onclick="switchTab('q3',this)">Q3 · Tren Tahun</button>
+        <button class="tab-btn" onclick="switchTab('q4',this)">Q4 · Penjual</button>
+        <button class="tab-btn" onclick="switchTab('q5',this)">Q5 · Brand</button>
+        <button class="tab-btn" onclick="switchTab('q6',this)">Q6 · Cross</button>
+        <button class="tab-btn" onclick="switchTab('q7',this)">Q7 · Era</button>
+        <button class="tab-btn" onclick="switchTab('q8',this)">Q8 · Custom</button>
+      </div>
+
+      <!-- Q1 -->
+      <div id="tab-q1" class="tab-section active">
+        <div class="analysis-header">
+          <div><div class="analysis-title">Q1 — Rata-rata Harga per Bahan Bakar</div>
+          <div class="analysis-desc">Rata-rata, min, dan max harga jual per jenis bahan bakar dari database langsung.</div></div>
+          <div class="insight-badge"><span class="insight-label">💡 Key Insight</span>Diesel memimpin rata-rata harga dengan selisih hampir 2× dari Petrol. LPG paling terjangkau.</div>
+        </div>
+        <div class="card-grid-2" style="margin-bottom:16px;">
+          <div class="analysis-chart-card" style="margin-bottom:0;">
+            <div class="chart-card-title">Rata-rata Harga per Bahan Bakar</div>
+            <div class="chart-card-sub">Dihitung dari dataset statis</div>
+            <div style="height:240px;"><canvas id="q1-avg"></canvas></div>
+          </div>
+          <div class="analysis-chart-card" style="margin-bottom:0;">
+            <div class="chart-card-title">Jumlah Listing per Bahan Bakar</div>
+            <div class="chart-card-sub">Petrol & Diesel dominasi pasar</div>
+            <div style="height:240px;"><canvas id="q1-count"></canvas></div>
+          </div>
+        </div>
+        <div class="analysis-chart-card" style="padding:0;overflow:hidden;">
+          <table class="data-table"><thead><tr><th>Bahan Bakar</th><th>Total Listing</th><th>Avg Harga</th><th>Min Harga</th><th>Max Harga</th></tr></thead>
+          <tbody id="q1-table"><tr class="loading-row"><td colspan="5"><div class="spinner"></div></td></tr></tbody></table>
+        </div>
+      </div>
+
+      <!-- Q2 -->
+      <div id="tab-q2" class="tab-section">
+        <div class="analysis-header">
+          <div><div class="analysis-title">Q2 — Harga & KM per Transmisi</div>
+          <div class="analysis-desc">Perbandingan rata-rata harga dan km tempuh antara Automatic vs Manual.</div></div>
+          <div class="insight-badge"><span class="insight-label">💡 Key Insight</span>Automatic rata-rata hampir 3.5× lebih mahal dari Manual.</div>
+        </div>
+        <div class="card-grid-2">
+          <div class="analysis-chart-card" style="margin-bottom:0;">
+            <div class="chart-card-title">Proporsi Transmisi di Pasar</div>
+            <div style="height:240px;"><canvas id="q2-pie"></canvas></div>
+          </div>
+          <div class="analysis-chart-card" style="margin-bottom:0;">
+            <div class="chart-card-title">Avg Harga & Avg KM per Transmisi</div>
+            <div style="height:240px;"><canvas id="q2-bar"></canvas></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q3 -->
+      <div id="tab-q3" class="tab-section">
+        <div class="analysis-header">
+          <div><div class="analysis-title">Q3 — Tren Harga per Tahun</div>
+          <div class="analysis-desc">Rata-rata harga jual dan jumlah listing per tahun produksi kendaraan.</div></div>
+          <div class="insight-badge"><span class="insight-label">💡 Key Insight</span>Tren harga naik signifikan sejak 2015. Kendaraan 2020 rata-rata jauh lebih mahal.</div>
+        </div>
+        <div class="analysis-chart-card">
+          <div class="chart-card-title">Rata-rata Harga per Tahun</div>
+          <div style="height:280px;"><canvas id="q3-price"></canvas></div>
+        </div>
+        <div class="analysis-chart-card">
+          <div class="chart-card-title">Jumlah Listing per Tahun</div>
+          <div style="height:200px;"><canvas id="q3-count"></canvas></div>
+        </div>
+      </div>
+
+      <!-- Q4 -->
+      <div id="tab-q4" class="tab-section">
+        <div class="analysis-header">
+          <div><div class="analysis-title">Q4 — Harga per Tipe Penjual & Kepemilikan</div>
+          <div class="analysis-desc">Kombinasi tipe penjual dan kepemilikan terhadap rata-rata harga.</div></div>
+          <div class="insight-badge"><span class="insight-label">💡 Key Insight</span>Trustmark Dealer First Owner paling mahal. Individual Second Owner nilai terbaik.</div>
+        </div>
+        <div class="analysis-chart-card">
+          <div class="chart-card-title">Avg Harga: Tipe Penjual × Kepemilikan</div>
+          <div style="height:300px;"><canvas id="q4-grouped"></canvas></div>
+        </div>
+        <div class="analysis-chart-card" style="padding:0;overflow:hidden;margin-top:16px;">
+          <table class="data-table"><thead><tr><th>Tipe Penjual</th><th>Kepemilikan</th><th>Total</th><th>Avg Harga</th><th>Avg KM</th></tr></thead>
+          <tbody id="q4-table"><tr class="loading-row"><td colspan="5"><div class="spinner"></div></td></tr></tbody></table>
+        </div>
+      </div>
+
+      <!-- Q5 -->
+      <div id="tab-q5" class="tab-section">
+        <div class="analysis-header">
+          <div><div class="analysis-title">Q5 — Top 10 Brand Rata-rata Harga Tertinggi</div>
+          <div class="analysis-desc">10 brand dengan rata-rata harga tertinggi (min 10 listing).</div></div>
+          <div class="insight-badge"><span class="insight-label">💡 Key Insight</span>Kia & Toyota memimpin segmen premium. Maruti volume terbesar tapi harga menengah.</div>
+        </div>
+        <div class="analysis-chart-card">
+          <div class="chart-card-title">Top 10 Brand · Rata-rata Harga</div>
+          <div style="height:320px;"><canvas id="q5-hbar"></canvas></div>
+        </div>
+        <div class="analysis-chart-card" style="padding:0;overflow:hidden;margin-top:16px;">
+          <table class="data-table"><thead><tr><th>Rank</th><th>Brand</th><th>Listing</th><th>Avg Harga</th><th>Min</th><th>Max</th></tr></thead>
+          <tbody id="q5-table"><tr class="loading-row"><td colspan="6"><div class="spinner"></div></td></tr></tbody></table>
+        </div>
+      </div>
+
+      <!-- Q6 -->
+      <div id="tab-q6" class="tab-section">
+        <div class="analysis-header">
+          <div><div class="analysis-title">Q6 — Cross Dimensi: BBM × Transmisi</div>
+          <div class="analysis-desc">Analisis gabungan pengaruh bahan bakar dan transmisi terhadap harga rata-rata.</div></div>
+          <div class="insight-badge"><span class="insight-label">💡 Key Insight</span>Diesel Automatic = kombinasi harga tertinggi. Petrol Manual paling terjangkau.</div>
+        </div>
+        <div class="card-grid-2" style="margin-bottom:16px;">
+          <div class="analysis-chart-card" style="margin-bottom:0;">
+            <div class="chart-card-title">Heatmap: Avg Harga (BBM × Transmisi)</div>
+            <div id="heatmap-price" style="padding:8px 0;min-height:160px;"></div>
+          </div>
+          <div class="analysis-chart-card" style="margin-bottom:0;">
+            <div class="chart-card-title">Heatmap: Jumlah Listing</div>
+            <div id="heatmap-count" style="padding:8px 0;min-height:160px;"></div>
+          </div>
+        </div>
+        <div class="analysis-chart-card">
+          <div class="chart-card-title">Bar Chart: Avg Harga per Kombinasi</div>
+          <div style="height:240px;"><canvas id="q6-bar"></canvas></div>
+        </div>
+      </div>
+
+      <!-- Q7 -->
+      <div id="tab-q7" class="tab-section">
+        <div class="analysis-header">
+          <div><div class="analysis-title">Q7 — Analisis Era: Harga per Era × BBM</div>
+          <div class="analysis-desc">Perbandingan harga antar era produksi dipecah per jenis bahan bakar.</div></div>
+          <div class="insight-badge"><span class="insight-label">💡 Key Insight</span>Era 2020+ menunjukkan lonjakan harga terbesar. Classic &lt;2000 hanya Petrol.</div>
+        </div>
+        <div class="analysis-chart-card">
+          <div class="chart-card-title">Rata-rata Harga per Era & Bahan Bakar</div>
+          <div style="height:300px;"><canvas id="q7-grouped"></canvas></div>
+        </div>
+        <div class="analysis-chart-card" style="padding:0;overflow:hidden;margin-top:16px;">
+          <table class="data-table"><thead><tr><th>Era</th><th>BBM</th><th>Listing</th><th>Avg Harga</th><th>Avg KM</th></tr></thead>
+          <tbody id="q7-table"><tr class="loading-row"><td colspan="5"><div class="spinner"></div></td></tr></tbody></table>
+        </div>
+      </div>
+
+      <!-- Q8 -->
+      <div id="tab-q8" class="tab-section">
+        <div class="analysis-header">
+          <div><div class="analysis-title">Q8 — Custom Analisis: Kombinasi Dimensi Bebas</div>
+          <div class="analysis-desc">Pilih dimensi apapun untuk membuat analisis custom. Lihat agregat count, avg harga, atau metrik lainnya berdasarkan kombinasi yang Anda pilih.</div></div>
+          <div class="insight-badge"><span class="insight-label">🔧 Custom Query</span>Gabungkan bahan bakar + transmisi + tahun atau dimensi lainnya sesuai kebutuhan Anda.</div>
+        </div>
+        
+        <div class="analysis-chart-card" style="padding:20px;margin-bottom:16px;">
+          <div class="chart-card-title" style="margin-bottom:16px;">Konfigurasi Custom Analisis</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px;">
+            <div>
+              <label style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:6px;">Dimensi Baris (X)</label>
+              <select id="q8-dim1" class="filter-select" style="width:100%;">
+                <option value="">-- Pilih Dimensi --</option>
+                <option value="fuel">Bahan Bakar</option>
+                <option value="transmission">Transmisi</option>
+                <option value="seller_type">Tipe Penjual</option>
+                <option value="owner">Kepemilikan</option>
+                <option value="year">Tahun Produksi</option>
+                <option value="brand">Brand</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:6px;">Dimensi Kolom (Warna)</label>
+              <select id="q8-dim2" class="filter-select" style="width:100%;">
+                <option value="">-- Opsional --</option>
+                <option value="fuel">Bahan Bakar</option>
+                <option value="transmission">Transmisi</option>
+                <option value="seller_type">Tipe Penjual</option>
+                <option value="owner">Kepemilikan</option>
+                <option value="year">Tahun Produksi</option>
+                <option value="brand">Brand</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:6px;">Metrik</label>
+              <select id="q8-metric" class="filter-select" style="width:100%;">
+                <option value="count">Jumlah Listing</option>
+                <option value="avg_price">Avg Harga</option>
+                <option value="avg_km">Avg KM Tempuh</option>
+                <option value="min_price">Min Harga</option>
+                <option value="max_price">Max Harga</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-primary" onclick="generateQ8()">Generate Chart</button>
+        </div>
+
+        <div class="analysis-chart-card">
+          <div class="chart-card-title" id="q8-chart-title">Chart Analisis Custom</div>
+          <div class="chart-card-sub" id="q8-chart-sub">Konfigurasi dimensi dan klik Generate untuk melihat chart</div>
+          <div style="height:300px;"><canvas id="q8-chart"></canvas></div>
+        </div>
+
+        <div class="analysis-chart-card" style="padding:0;overflow:hidden;margin-top:16px;">
+          <table class="data-table"><thead id="q8-table-head"><tr><th colspan="2">Data Belum Diload</th></tr></thead>
+          <tbody id="q8-table"><tr class="loading-row"><td colspan="5">Pilih konfigurasi dan klik Generate</td></tr></tbody></table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="config.js"></script>
+<script src="supabase-client.js"></script>
+<script>
+Chart.defaults.color = '#64748b';
+Chart.defaults.borderColor = 'rgba(255,255,255,0.05)';
+Chart.defaults.font.family = "'Outfit', sans-serif";
+
+const hamburger = document.getElementById("hamburger");
+const sidebar   = document.getElementById("sidebar");
+hamburger?.addEventListener("click", e => { e.stopPropagation(); sidebar?.classList.toggle("mobile-open"); });
+document.addEventListener("click", e => {
+  if (sidebar?.classList.contains("mobile-open") && !sidebar.contains(e.target) && !hamburger.contains(e.target))
+    sidebar.classList.remove("mobile-open");
+});
+
+const C = { amber:"#f59e0b", blue:"#38bdf8", green:"#34d399", red:"#f87171", purple:"#a78bfa", coral:"#e07a5f", muted:"#64748b" };
+const _charts = {};
+function mc(id, cfg) { if(_charts[id]) _charts[id].destroy(); const c=document.getElementById(id); if(!c) return; _charts[id]=new Chart(c,cfg); }
+function lakh(v) { return "₹"+(v/100000).toFixed(1)+"L"; }
+function lakhTick(v) { return "₹"+(v/100000).toFixed(0)+"L"; }
+
+const loadedTabs = new Set();
+let db = null;
+
+document.addEventListener("DOMContentLoaded", async () => {
+  db = initSupabase();
+  if (!db) return;
+  await loadQ1();
+  loadedTabs.add("q1");
+});
+
+function switchTab(id, el) {
+  document.querySelectorAll(".tab-section").forEach(s => s.classList.remove("active"));
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  document.querySelectorAll(".tab-nav").forEach(b => { b.classList.remove("active"); b.querySelector(".nav-icon").style.color = "var(--text-muted)"; });
+  document.getElementById("tab-" + id)?.classList.add("active");
+  if (el) {
+    el.classList.add("active");
+    document.querySelectorAll(`.tab-nav[data-tab="${id}"]`).forEach(b => {
+      b.classList.add("active"); b.querySelector(".nav-icon").style.color = "var(--accent)";
+    });
+  }
+  if (!loadedTabs.has(id) && db) {
+    ({ q1:loadQ1, q2:loadQ2, q3:loadQ3, q4:loadQ4, q5:loadQ5, q6:loadQ6, q7:loadQ7, q8:loadQ8 }[id]?.());
+    loadedTabs.add(id);
+  }
+}
+
+async function loadQ8() {
+  // Q8 is loaded on-demand when user clicks Generate
+  return;
+}
+
+// ─── Q1 ──────────────────────────────────────────────────────
+async function loadQ1() {
+  try {
+    const all = await fetchAll("fuel, selling_price");
+    const byFuel = {};
+    all.forEach(r => {
+      if (!byFuel[r.fuel]) byFuel[r.fuel] = { prices:[] };
+      byFuel[r.fuel].prices.push(r.selling_price);
+    });
+    const rows = Object.entries(byFuel).map(([fuel, d]) => ({
+      fuel, count: d.prices.length,
+      avg: Math.round(d.prices.reduce((s,v)=>s+v,0)/d.prices.length),
+      min: Math.min(...d.prices), max: Math.max(...d.prices)
+    })).sort((a,b)=>b.avg-a.avg);
+
+    const fuelColors = {Diesel:C.blue, Petrol:"#fb923c", CNG:C.green, LPG:C.purple, Electric:C.amber};
+    mc("q1-avg",{type:"bar",data:{labels:rows.map(d=>d.fuel),datasets:[{label:"Avg Harga",data:rows.map(d=>d.avg),backgroundColor:rows.map(d=>(fuelColors[d.fuel]||C.muted)+"cc"),borderRadius:6}]},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{...tooltipStyle(),callbacks:{label:ctx=>` ${lakh(ctx.parsed.y)}`}}},scales:{x:{...scaleStyle(),ticks:{...tickStyle()}},y:{...scaleStyle(),ticks:{...tickStyle(),callback:lakhTick}}}}});
+    mc("q1-count",{type:"bar",data:{labels:rows.map(d=>d.fuel),datasets:[{label:"Listing",data:rows.map(d=>d.count),backgroundColor:rows.map(d=>(fuelColors[d.fuel]||C.muted)+"66"),borderRadius:6}]},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{...tooltipStyle()}},scales:{x:{...scaleStyle(),ticks:{...tickStyle()}},y:{...scaleStyle(),ticks:{...tickStyle()}}}}});
+
+    document.getElementById("q1-table").innerHTML = rows.map(d=>`<tr>
+      <td><span class="badge badge-${d.fuel.toLowerCase()}">${d.fuel}</span></td>
+      <td style="color:var(--text-muted)">${d.count.toLocaleString()}</td>
+      <td style="color:var(--green);font-weight:600;">${lakh(d.avg)}</td>
+      <td style="color:var(--text-muted)">${lakh(d.min)}</td>
+      <td style="color:var(--accent)">${lakh(d.max)}</td>
+    </tr>`).join("");
+  } catch(e) { console.error("Q1 error:", e); showDbError("Q1: "+e.message); }
+}
+
+// ─── Q2 ──────────────────────────────────────────────────────
+async function loadQ2() {
+  try {
+    const all = await fetchAll("transmission, selling_price, km_driven");
+    const by = {};
+    all.forEach(r => {
+      if (!by[r.transmission]) by[r.transmission] = { prices:[], kms:[] };
+      by[r.transmission].prices.push(r.selling_price);
+      by[r.transmission].kms.push(r.km_driven);
+    });
+    const rows = Object.entries(by).map(([t,d])=>({
+      t, count:d.prices.length,
+      avgP: Math.round(d.prices.reduce((s,v)=>s+v,0)/d.prices.length),
+      avgK: Math.round(d.kms.reduce((s,v)=>s+v,0)/d.kms.length)
+    })).sort((a,b)=>b.avgP-a.avgP);
+
+    mc("q2-pie",{type:"doughnut",data:{labels:rows.map(d=>d.t),datasets:[{data:rows.map(d=>d.count),backgroundColor:[C.blue+"cc",C.muted+"bb"],borderColor:[C.blue,C.muted],borderWidth:2,hoverOffset:6}]},
+      options:{responsive:true,maintainAspectRatio:false,cutout:"60%",plugins:{legend:{position:"bottom",labels:{color:"#94a3b8",padding:14,boxWidth:12}},tooltip:{callbacks:{label:ctx=>` ${ctx.label}: ${ctx.raw.toLocaleString()}`}}}}});
+    mc("q2-bar",{type:"bar",data:{labels:rows.map(d=>d.t),datasets:[{label:"Avg Harga",data:rows.map(d=>d.avgP),backgroundColor:[C.blue+"cc",C.muted+"88"],borderRadius:6},{label:"Avg KM",data:rows.map(d=>d.avgK),backgroundColor:[C.blue+"33",C.muted+"33"],borderRadius:6}]},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:"bottom",labels:{color:"#94a3b8",padding:14,boxWidth:10,usePointStyle:true,pointStyle:"rect"}},tooltip:{...tooltipStyle()}},scales:{x:{...scaleStyle(),ticks:{...tickStyle()}},y:{...scaleStyle(),ticks:{...tickStyle()}}}}});
+  } catch(e) { console.error("Q2:",e); showDbError("Q2: "+e.message); }
+}
+
+// ─── Q3 ──────────────────────────────────────────────────────
+async function loadQ3() {
+  try {
+    const all = await fetchAll("year, selling_price");
+    const by  = {};
+    all.forEach(r => {
+      if (!by[r.year]) by[r.year] = { sum:0, count:0 };
+      by[r.year].sum += r.selling_price; by[r.year].count++;
+    });
+    const years  = Object.keys(by).map(Number).sort((a,b)=>a-b);
+    const prices = years.map(y => Math.round(by[y].sum/by[y].count));
+    const counts = years.map(y => by[y].count);
+
+    const getColor = y => y < 2000 ? "#94a3b8" : y < 2010 ? "#fb923c" : y < 2020 ? C.blue : C.green;
+    mc("q3-price",{type:"bar",data:{labels:years,datasets:[{label:"Avg Harga",data:prices,backgroundColor:years.map(y=>getColor(y)+"cc"),borderRadius:4}]},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{...tooltipStyle(),callbacks:{label:ctx=>` ${lakh(ctx.parsed.y)}`}}},scales:{x:{...scaleStyle(),ticks:{...tickStyle(),maxRotation:45}},y:{...scaleStyle(),ticks:{...tickStyle(),callback:lakhTick}}}}});
+    mc("q3-count",{type:"bar",data:{labels:years,datasets:[{label:"Listing",data:counts,backgroundColor:years.map(y=>getColor(y)+"77"),borderRadius:4}]},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{...tooltipStyle()}},scales:{x:{...scaleStyle(),ticks:{...tickStyle(),maxRotation:45}},y:{...scaleStyle(),ticks:{...tickStyle()}}}}});
+  } catch(e) { console.error("Q3:",e); showDbError("Q3: "+e.message); }
+}
+
+// ─── Q4 ──────────────────────────────────────────────────────
+async function loadQ4() {
+  try {
+    const all = await fetchAll("seller_type, owner, selling_price, km_driven");
+    const by  = {};
+    all.forEach(r => {
+      const k = `${r.seller_type}|||${r.owner}`;
+      if (!by[k]) by[k] = { seller_type:r.seller_type, owner:r.owner, prices:[], kms:[] };
+      by[k].prices.push(r.selling_price); by[k].kms.push(r.km_driven);
+    });
+    const rows = Object.values(by).map(d => ({
+      seller_type:d.seller_type, owner:d.owner, count:d.prices.length,
+      avgP: Math.round(d.prices.reduce((s,v)=>s+v,0)/d.prices.length),
+      avgK: Math.round(d.kms.reduce((s,v)=>s+v,0)/d.kms.length)
+    })).sort((a,b) => b.avgP - a.avgP);
+
+    const owners  = ["First Owner","Second Owner","Third Owner","Fourth & Above Owner"];
+    const sellers = ["Individual","Dealer","Trustmark Dealer"];
+    const selColors = { Individual:C.green, Dealer:C.blue, "Trustmark Dealer":C.purple };
+    const datasets = sellers.map(s => ({
+      label:s, data:owners.map(o => { const r=rows.find(x=>x.seller_type===s&&x.owner===o); return r?r.avgP:0; }),
+      backgroundColor:(selColors[s]||C.muted)+"cc", borderRadius:4
+    }));
+    mc("q4-grouped",{type:"bar",data:{labels:owners.map(o=>o.replace(" Owner","").replace("Fourth & Above","4th+")),datasets},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:"bottom",labels:{color:"#94a3b8",padding:14,boxWidth:10,usePointStyle:true,pointStyle:"rect"}},tooltip:{...tooltipStyle(),callbacks:{label:ctx=>` ${ctx.dataset.label}: ${lakh(ctx.parsed.y)}`}}},scales:{x:{...scaleStyle(),ticks:{...tickStyle()}},y:{...scaleStyle(),ticks:{...tickStyle(),callback:lakhTick}}}}});
+
+    document.getElementById("q4-table").innerHTML = rows.map(d=>`<tr>
+      <td><span class="badge badge-${d.seller_type.toLowerCase().replace(/\s/g,'')}">${d.seller_type}</span></td>
+      <td style="font-size:12px;color:var(--text-muted)">${d.owner}</td>
+      <td style="color:var(--text-muted)">${d.count.toLocaleString()}</td>
+      <td style="color:var(--green);font-weight:600;">${lakh(d.avgP)}</td>
+      <td style="color:var(--text-muted)">${d.avgK.toLocaleString()} km</td>
+    </tr>`).join("");
+  } catch(e) { console.error("Q4:",e); showDbError("Q4: "+e.message); }
+}
+
+// ─── Q5 ──────────────────────────────────────────────────────
+async function loadQ5() {
+  try {
+    const all = await fetchAll("brand, selling_price");
+    const by  = {};
+    all.forEach(r => {
+      if (!by[r.brand]) by[r.brand] = [];
+      by[r.brand].push(r.selling_price);
+    });
+    const rows = Object.entries(by)
+      .filter(([,p])=>p.length>=10)
+      .map(([brand,prices])=>({brand, count:prices.length, avg:Math.round(prices.reduce((s,v)=>s+v,0)/prices.length), min:Math.min(...prices), max:Math.max(...prices)}))
+      .sort((a,b)=>b.avg-a.avg).slice(0,10);
+
+    mc("q5-hbar",{type:"bar",data:{labels:rows.map(d=>d.brand),datasets:[{label:"Avg Harga",data:rows.map(d=>d.avg),backgroundColor:rows.map((_,i)=>`hsl(${120-i*10},70%,50%)cc`),borderRadius:6}]},
+      options:{indexAxis:"y",responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{...tooltipStyle(),callbacks:{label:ctx=>` ${lakh(ctx.parsed.x)} (n=${rows[ctx.dataIndex].count})`}}},scales:{x:{...scaleStyle(),ticks:{...tickStyle(),callback:lakhTick}},y:{...scaleStyle(),grid:{display:false},ticks:{...tickStyle()}}}}});
+
+    document.getElementById("q5-table").innerHTML = rows.map((d,i)=>`<tr>
+      <td style="color:var(--accent);font-weight:700;">#${i+1}</td>
+      <td style="font-weight:600;">${d.brand}</td>
+      <td style="color:var(--text-muted)">${d.count}</td>
+      <td style="color:var(--green);font-weight:600;">${lakh(d.avg)}</td>
+      <td style="color:var(--text-muted)">${lakh(d.min)}</td>
+      <td style="color:var(--accent)">${lakh(d.max)}</td>
+    </tr>`).join("");
+  } catch(e) { console.error("Q5:",e); showDbError("Q5: "+e.message); }
+}
+
+// ─── Q6 ──────────────────────────────────────────────────────
+async function loadQ6() {
+  try {
+    const all = await fetchAll("fuel, transmission, selling_price");
+    const by  = {};
+    all.forEach(r => {
+      const k = `${r.fuel}|||${r.transmission}`;
+      if (!by[k]) by[k] = { fuel:r.fuel, trans:r.transmission, prices:[] };
+      by[k].prices.push(r.selling_price);
+    });
+    const rows = Object.values(by).map(d=>({
+      fuel:d.fuel, trans:d.trans, count:d.prices.length,
+      avg:Math.round(d.prices.reduce((s,v)=>s+v,0)/d.prices.length)
+    })).sort((a,b)=>b.avg-a.avg);
+
+    // Heatmaps
+    buildHeatmap("heatmap-price", rows, true);
+    buildHeatmap("heatmap-count", rows, false);
+
+    const bgColors = [C.amber,C.blue,C.green,C.coral,C.purple,C.red,C.muted];
+    mc("q6-bar",{type:"bar",data:{labels:rows.map(d=>`${d.fuel} ${d.trans}`),datasets:[{label:"Avg Harga",data:rows.map(d=>d.avg),backgroundColor:rows.map((_,i)=>bgColors[i%7]+"cc"),borderRadius:6}]},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{...tooltipStyle(),callbacks:{label:ctx=>` ${lakh(ctx.parsed.y)}`}}},scales:{x:{...scaleStyle(),ticks:{...tickStyle(),maxRotation:25}},y:{...scaleStyle(),ticks:{...tickStyle(),callback:lakhTick}}}}});
+  } catch(e) { console.error("Q6:",e); showDbError("Q6: "+e.message); }
+}
+
+function buildHeatmap(containerId, rows, isPrice) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  const fuels = [...new Set(rows.map(d=>d.fuel))];
+  const trans = [...new Set(rows.map(d=>d.trans))];
+  const vals  = fuels.map(f=>trans.map(t=>{ const r=rows.find(x=>x.fuel===f&&x.trans===t); return isPrice?(r?r.avg:null):(r?r.count:null); }));
+  const allV  = vals.flat().filter(v=>v!==null);
+  const maxV  = Math.max(...allV);
+
+  let html = `<table class="heatmap-table" style="width:100%;"><thead><tr><th></th>${trans.map(t=>`<th>${t}</th>`).join("")}</tr></thead><tbody>`;
+  fuels.forEach((f,i)=>{
+    html += `<tr><td class="heatmap-label">${f}</td>`;
+    trans.forEach((_,j)=>{
+      const v = vals[i][j];
+      if(v===null){html+=`<td style="color:var(--text-faint);font-size:11px;">—</td>`;return;}
+      const ratio = v/maxV;
+      const bg = isPrice?`rgba(245,158,11,${0.1+ratio*0.75})`:`rgba(56,189,248,${0.1+ratio*0.75})`;
+      const fc = ratio>0.5?"#fff":"#94a3b8";
+      html+=`<td style="background:${bg};color:${fc};font-size:13px;">${isPrice?lakh(v):v.toLocaleString()}</td>`;
+    });
+    html+=`</tr>`;
+  });
+  el.innerHTML = html+"</tbody></table>";
+}
+
+// ─── Q7 ──────────────────────────────────────────────────────
+async function loadQ7() {
+  try {
+    const all = await fetchAll("year, fuel, selling_price, km_driven");
+    const getEra = y => y<2000?"Classic (<2000)":y<2010?"Early 2000s":y<2020?"2010s":"Recent (2020+)";
+    const by = {};
+    all.forEach(r => {
+      const era = getEra(r.year);
+      const k   = `${era}|||${r.fuel}`;
+      if (!by[k]) by[k] = { era, fuel:r.fuel, prices:[], kms:[] };
+      by[k].prices.push(r.selling_price); by[k].kms.push(r.km_driven);
+    });
+    const rows = Object.values(by).map(d=>({
+      era:d.era, fuel:d.fuel, count:d.prices.length,
+      avgP:Math.round(d.prices.reduce((s,v)=>s+v,0)/d.prices.length),
+      avgK:Math.round(d.kms.reduce((s,v)=>s+v,0)/d.kms.length)
+    }));
+    const eras  = ["Classic (<2000)","Early 2000s","2010s","Recent (2020+)"];
+    const fuels = [...new Set(rows.map(d=>d.fuel))];
+    const fuelColors = { Diesel:C.blue, Petrol:"#fb923c", CNG:C.green, LPG:C.purple, Electric:C.amber };
+    const datasets = fuels.map(f=>({
+      label:f, data:eras.map(e=>{ const r=rows.find(x=>x.era===e&&x.fuel===f); return r?r.avgP:0; }),
+      backgroundColor:(fuelColors[f]||C.muted)+"cc", borderRadius:4
+    }));
+    mc("q7-grouped",{type:"bar",data:{labels:eras.map(e=>e.replace("Classic (<2000)","Classic").replace("Recent (2020+)","2020+")),datasets},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:"bottom",labels:{color:"#94a3b8",padding:14,boxWidth:10,usePointStyle:true,pointStyle:"rect"}},tooltip:{...tooltipStyle(),callbacks:{label:ctx=>` ${ctx.dataset.label}: ${lakh(ctx.parsed.y)}`}}},scales:{x:{...scaleStyle(),ticks:{...tickStyle()}},y:{...scaleStyle(),ticks:{...tickStyle(),callback:lakhTick}}}}});
+
+    document.getElementById("q7-table").innerHTML = rows.sort((a,b)=>eras.indexOf(a.era)-eras.indexOf(b.era)||b.avgP-a.avgP).map(d=>`<tr>
+      <td style="font-size:12px;color:var(--text-muted)">${d.era}</td>
+      <td><span class="badge badge-${d.fuel.toLowerCase()}">${d.fuel}</span></td>
+      <td style="color:var(--text-muted)">${d.count.toLocaleString()}</td>
+      <td style="color:var(--green);font-weight:600;">${lakh(d.avgP)}</td>
+      <td style="color:var(--text-muted)">${d.avgK.toLocaleString()} km</td>
+    </tr>`).join("");
+  } catch(e) { console.error("Q7:",e); showDbError("Q7: "+e.message); }
+}
+
+// ─── Q8: Custom Analisis ─────────────────────────────────────
+const dimensionFields = { fuel:"fuel", transmission:"transmission", seller_type:"seller_type", owner:"owner", year:"year", brand:"brand" };
+const dimensionLabels = { fuel:"Bahan Bakar", transmission:"Transmisi", seller_type:"Tipe Penjual", owner:"Kepemilikan", year:"Tahun", brand:"Brand" };
+
+async function generateQ8() {
+  try {
+    const dim1 = document.getElementById("q8-dim1").value;
+    const dim2 = document.getElementById("q8-dim2").value;
+    const metric = document.getElementById("q8-metric").value;
+    
+    if (!dim1) {
+      alert("Pilih Dimensi Baris terlebih dahulu");
+      return;
+    }
+
+    const fields = `${dim1}${dim2?","+dim2:""}, selling_price, km_driven`;
+    const all = await fetchAll(fields);
+    
+    const data = {};
+    all.forEach(r => {
+      const d1Val = r[dimensionFields[dim1]] || "Unknown";
+      const d2Val = dim2 ? (r[dimensionFields[dim2]] || "Unknown") : "Total";
+      const k = dim2 ? `${d1Val}|||${d2Val}` : d1Val;
+      
+      if (!data[k]) {
+        data[k] = { dim1:d1Val, dim2:d2Val, prices:[], kms:[], count:0 };
+      }
+      data[k].prices.push(r.selling_price);
+      data[k].kms.push(r.km_driven);
+      data[k].count += 1;
+    });
+
+    // Aggregate
+    const rows = Object.values(data).map(d => {
+      const prices = d.prices || [];
+      const kms = d.kms || [];
+      const count = d.count || 0;
+      return {
+        dim1: d.dim1, dim2: d.dim2,
+        count: count,
+        avg_price: count ? Math.round(prices.reduce((s,v)=>s+v,0)/count) : 0,
+        avg_km: count ? Math.round(kms.reduce((s,v)=>s+v,0)/count) : 0,
+        min_price: count ? Math.min(...prices) : 0,
+        max_price: count ? Math.max(...prices) : 0
+      };
+    });
+
+    // Update title & table
+    const metricLabels = { count:"Jumlah Listing", avg_price:"Rata-rata Harga", avg_km:"Rata-rata KM", min_price:"Min Harga", max_price:"Max Harga" };
+    document.getElementById("q8-chart-title").textContent = `${dimensionLabels[dim1]}${dim2?" × "+dimensionLabels[dim2]:""} → ${metricLabels[metric]}`;
+    document.getElementById("q8-chart-sub").textContent = `Agregasi berdasarkan ${dimensionLabels[dim1]}${dim2?" dan "+dimensionLabels[dim2]:""}`;
+
+    // Build table headers
+    const tableHead = document.getElementById("q8-table-head");
+    const headers = ["#", dimensionLabels[dim1]];
+    if (dim2) headers.push(dimensionLabels[dim2]);
+    headers.push("Count", metricLabels[metric]);
+    tableHead.innerHTML = `<tr>${headers.map(h=>`<th>${h}</th>`).join("")}</tr>`;
+
+    // Render table
+    document.getElementById("q8-table").innerHTML = rows
+      .sort((a,b) => {
+        if(a.dim1 !== b.dim1) return String(a.dim1).localeCompare(String(b.dim1));
+        return dim2 ? String(a.dim2).localeCompare(String(b.dim2)) : 0;
+      })
+      .map((d,i) => {
+        const val = metric === "count" ? d.count : metric === "avg_price" ? lakh(d.avg_price) : metric === "avg_km" ? d.avg_km.toLocaleString() : metric === "min_price" ? lakh(d.min_price) : lakh(d.max_price);
+        const cells = [i+1, d.dim1];
+        if (dim2) cells.push(d.dim2);
+        cells.push(d.count.toLocaleString(), val);
+        return `<tr>${cells.map(c=>`<td>${c}</td>`).join("")}</tr>`;
+      })
+      .join("");
+
+    // Build chart
+    if (!dim2) {
+      // Simple bar chart
+      const labels = rows.map(d => String(d.dim1));
+      const values = rows.map(d => d[metric]);
+      const colors = [C.blue, C.amber, C.green, C.purple, C.red, C.coral];
+      mc("q8-chart", {
+        type: "bar",
+        data: {
+          labels: labels,
+          datasets: [{
+            label: metricLabels[metric],
+            data: values,
+            backgroundColor: labels.map((_, i) => colors[i % colors.length] + "cc"),
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: { ...tooltipStyle(), callbacks: { label: ctx => ` ${metric === "count" ? ctx.parsed.y.toLocaleString() : (metric.includes("price") ? lakh(ctx.parsed.y) : ctx.parsed.y.toLocaleString())}` }}
+          },
+          scales: {
+            x: { ...scaleStyle(), ticks: { ...tickStyle() } },
+            y: { ...scaleStyle(), ticks: { ...tickStyle(), callback: v => metric === "count" ? v.toLocaleString() : (metric.includes("price") ? lakhTick(v) : v.toLocaleString()) } }
+          }
+        }
+      });
+    } else {
+      // Grouped bar chart
+      const dim1Vals = [...new Set(rows.map(d => String(d.dim1)))].sort();
+      const dim2Vals = [...new Set(rows.map(d => String(d.dim2)))].sort();
+      const datasets = dim2Vals.map((d2, i) => ({
+        label: d2,
+        data: dim1Vals.map(d1 => {
+          const r = rows.find(x => String(x.dim1) === d1 && String(x.dim2) === d2);
+          return r ? r[metric] : 0;
+        }),
+        backgroundColor: [C.blue, C.amber, C.green, C.purple, C.red, C.coral][i % 6] + "cc",
+        borderRadius: 4
+      }));
+      mc("q8-chart", {
+        type: "bar",
+        data: { labels: dim1Vals, datasets: datasets },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: {
+            legend: { position: "bottom", labels: { color: "#94a3b8", padding: 14, boxWidth: 10, usePointStyle: true, pointStyle: "rect" } },
+            tooltip: { ...tooltipStyle(), callbacks: { label: ctx => ` ${ctx.dataset.label}: ${metric === "count" ? ctx.parsed.y.toLocaleString() : (metric.includes("price") ? lakh(ctx.parsed.y) : ctx.parsed.y.toLocaleString())}` } }
+          },
+          scales: {
+            x: { ...scaleStyle(), ticks: { ...tickStyle() } },
+            y: { ...scaleStyle(), ticks: { ...tickStyle(), callback: v => metric === "count" ? v.toLocaleString() : (metric.includes("price") ? lakhTick(v) : v.toLocaleString()) } }
+          }
+        }
+      });
+    }
+  } catch(e) {
+    console.error("Q8:", e);
+    showDbError("Q8: " + e.message);
+  }
+}
+
+// Helper functions for charts
+function tooltipStyle() {
+  return { backgroundColor: "rgba(0,0,0,0.8)", titleColor: "#f8fafc", bodyColor: "#f8fafc", borderColor: "rgba(255,255,255,0.2)", borderWidth: 1, padding: 10, displayColors: false };
+}
+function scaleStyle() {
+  return { grid: { color: "rgba(255,255,255,0.05)", drawTicks: false }, border: { display: false } };
+}
+function tickStyle() {
+  return { color: "#64748b", font: { size: 11 } };
+}
+async function fetchAll(fields) {
+  return fetchJoined(fields) || [];
+}
+</script>
+</body>
+</html>

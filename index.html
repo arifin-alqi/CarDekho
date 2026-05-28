@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CarDekho — Dashboard BI</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<div class="app-wrapper" id="app-wrapper">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M19 17H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h2l2-3h6l2 3h2a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2z"/><circle cx="8.5" cy="14.5" r="1.5"/><circle cx="15.5" cy="14.5" r="1.5"/></svg>
+      </div>
+      <div class="logo-text">CarDekho<span>Analytics BI</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Menu Utama</div>
+      <a href="#dashboard" class="nav-item active" id="dashboard-link">
+        <span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg></span>
+        Dashboard
+      </a>
+      <a href="dataset.html" class="nav-item">
+        <span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>
+        Dataset & Filter
+      </a>
+      <a href="analysis.html" class="nav-item">
+        <span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>
+        Analisis OLAP
+      </a>
+
+      <div class="nav-section-label" style="margin-top:10px;">Koneksi</div>
+      <div class="nav-item sidebar-info-item">
+        <span class="nav-icon">
+          <div class="dot" id="db-status-dot" style="background:#a0aec0;animation:none;"></div>
+        </span>
+        <div>
+          <div style="font-size:12.5px;color:var(--text);font-weight:700;" id="db-status-text">Menghubungkan…</div>
+          <div style="font-size:10.5px;color:var(--text-faint);">Dataset statis</div>
+        </div>
+      </div>
+      <div class="nav-item sidebar-info-item">
+        <span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></span>
+        <div>
+          <div style="font-size:12.5px;color:var(--text);font-weight:700;">car_details</div>
+          <div style="font-size:10.5px;color:var(--text-faint);">Tabel · Kaggle · 1992–2020</div>
+        </div>
+      </div>
+    </nav>
+    <div class="sidebar-footer">CarDekho BI Dashboard</div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main-content">
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div class="topbar-title">Car<span>Dekho</span> Dashboard</div>
+        <nav style="display:flex;gap:4px;margin-left:16px;">
+          <a href="index.html" style="padding:5px 12px;border-radius:5px;font-size:12px;font-weight:700;background:rgba(255,255,255,0.2);color:#fff;">Dashboard</a>
+          <a href="dataset.html" style="padding:5px 12px;border-radius:5px;font-size:12px;font-weight:600;color:rgba(255,255,255,0.75);">Dataset</a>
+          <a href="analysis.html" style="padding:5px 12px;border-radius:5px;font-size:12px;font-weight:600;color:rgba(255,255,255,0.75);">OLAP</a>
+        </nav>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-badge">
+          <div class="dot" id="live-dot" style="background:#a0aec0;animation:none;"></div>
+          <span id="live-label">Dataset Statis</span>
+        </div>
+        <div class="topbar-date">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span id="topbar-date">—</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb-bar">
+      <div style="display:flex;align-items:center;gap:5px;">
+        <a href="index.html">Dashboard</a>
+        <span>›</span> App
+        <span>›</span> Dashboard
+        <span>›</span> <span style="color:var(--text-muted);">Analytics</span>
+      </div>
+    </div>
+
+    <main class="page-content">
+
+      <!-- KELOMPOK BANNER -->
+      <div class="kelompok-banner">
+        <span class="kbadge">📊 CarDekho BI Dashboard</span>
+        <span class="knames">Data statis dari dataset CarDekho · Listing 1992–2020</span>
+      </div>
+
+      <!-- KPI CARDS -->
+      <div class="stats-grid">
+        <div class="stat-card kpi-1">
+          <div class="stat-header">
+            <div class="stat-icon-wrap">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M19 17H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h2l2-3h6l2 3h2a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2z"/><circle cx="8.5" cy="14.5" r="1.5"/><circle cx="15.5" cy="14.5" r="1.5"/></svg>
+            </div>
+            <div class="stat-badge up">Total</div>
+          </div>
+          <div class="stat-label">Total Kendaraan</div>
+          <div class="stat-value" id="stat-total">—</div>
+          <div class="stat-sub" id="stat-total-sub">Memuat dataset…</div>
+        </div>
+
+        <div class="stat-card kpi-2">
+          <div class="stat-header">
+            <div class="stat-icon-wrap">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <div class="stat-badge">₹ Harga</div>
+          </div>
+          <div class="stat-label">Rata-rata Harga</div>
+          <div class="stat-value" id="stat-avg-price">—</div>
+          <div class="stat-sub" id="stat-max-price">Memuat…</div>
+        </div>
+
+        <div class="stat-card kpi-3">
+          <div class="stat-header">
+            <div class="stat-icon-wrap">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <div class="stat-badge">KM</div>
+          </div>
+          <div class="stat-label">Rata-rata KM Tempuh</div>
+          <div class="stat-value" id="stat-avg-km">—</div>
+          <div class="stat-sub">km per kendaraan</div>
+        </div>
+
+        <div class="stat-card kpi-4">
+          <div class="stat-header">
+            <div class="stat-icon-wrap">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <div class="stat-badge">⭐ Top</div>
+          </div>
+          <div class="stat-label">Brand Terpopuler</div>
+          <div class="stat-value" id="stat-top-brand" style="font-size:24px;letter-spacing:-0.5px;">—</div>
+          <div class="stat-sub" id="stat-top-brand-count">Memuat…</div>
+        </div>
+      </div>
+
+      <!-- CHARTS ROW 1: Customers / Conversion / Revenue style -->
+      <div class="charts-grid-3" style="margin-bottom:16px;">
+        <!-- Total Listing metric card -->
+        <div class="chart-card">
+          <div class="card-header">
+            <div class="card-title-wrap">
+              <div class="card-title">Total Listing</div>
+              <div class="card-subtitle">Semua kendaraan terdaftar</div>
+            </div>
+            <div class="card-dots"><span></span><span></span><span></span></div>
+          </div>
+          <div style="font-size:38px;font-weight:800;color:var(--text);letter-spacing:-2px;line-height:1;" id="big-total">—</div>
+          <div style="font-size:12px;color:var(--teal);margin:6px 0 14px;font-weight:700;" id="big-total-sub">— records</div>
+          <div class="chart-wrap" style="height:80px;"><canvas id="sparkTotalChart"></canvas></div>
+        </div>
+
+        <!-- Avg Price metric card -->
+        <div class="chart-card">
+          <div class="card-header">
+            <div class="card-title-wrap">
+              <div class="card-title">Rata-rata Harga</div>
+              <div class="card-subtitle">Harga jual per kendaraan</div>
+            </div>
+            <div class="card-dots"><span></span><span></span><span></span></div>
+          </div>
+          <div style="font-size:38px;font-weight:800;color:var(--text);letter-spacing:-2px;line-height:1;" id="big-price">—</div>
+          <div style="font-size:12px;color:var(--amber);margin:6px 0 14px;font-weight:700;" id="big-price-sub">— max price</div>
+          <div class="chart-wrap" style="height:80px;"><canvas id="sparkPriceChart"></canvas></div>
+        </div>
+
+        <!-- Avg KM metric card -->
+        <div class="chart-card">
+          <div class="card-header">
+            <div class="card-title-wrap">
+              <div class="card-title">Rata-rata KM</div>
+              <div class="card-subtitle">Jarak tempuh per unit</div>
+            </div>
+            <div class="card-dots"><span></span><span></span><span></span></div>
+          </div>
+          <div style="font-size:38px;font-weight:800;color:var(--text);letter-spacing:-2px;line-height:1;" id="big-km">—</div>
+          <div style="font-size:12px;color:var(--red);margin:6px 0 14px;font-weight:700;">km rata-rata</div>
+          <div class="chart-wrap" style="height:80px;"><canvas id="sparkKmChart"></canvas></div>
+        </div>
+      </div>
+
+      <!-- CHARTS ROW 2: Revenue for last 30 days + All Online Sales -->
+      <div class="charts-grid" style="margin-bottom:16px;">
+        <!-- Line chart: Harga per Tahun -->
+        <div class="chart-card">
+          <div class="card-header">
+            <div class="card-title-wrap">
+              <div class="card-title">Tren Harga per Tahun</div>
+              <div class="card-subtitle">Rata-rata harga jual kendaraan 1992–2020</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div class="legend-row" style="margin:0;">
+                <div class="legend-pill"><div class="legend-dot" style="background:#667eea;"></div> Avg Harga</div>
+                <div class="legend-pill"><div class="legend-dot" style="background:#ed8936;"></div> Volume</div>
+              </div>
+              <div class="card-dots"><span></span><span></span><span></span></div>
+            </div>
+          </div>
+          <div class="chart-wrap xl"><canvas id="priceYearChart"></canvas></div>
+        </div>
+
+        <!-- Donut: Distribusi Bahan Bakar -->
+        <div class="chart-card">
+          <div class="card-header">
+            <div class="card-title-wrap">
+              <div class="card-title">Distribusi Bahan Bakar</div>
+              <div class="card-subtitle">Proporsi jenis BBM di pasar</div>
+            </div>
+            <div class="card-dots"><span></span><span></span><span></span></div>
+          </div>
+          <div class="chart-wrap" style="height:180px;"><canvas id="fuelChart"></canvas></div>
+          <div style="display:flex;justify-content:center;gap:20px;margin-top:12px;" id="fuel-legend-row"></div>
+        </div>
+      </div>
+
+      <!-- CHARTS ROW 3: Market overview + right stats — matches screenshot layout -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px;">
+        <!-- Bar: Top Brand -->
+        <div class="chart-card" style="grid-column:span 2;">
+          <div class="card-header">
+            <div class="card-title-wrap">
+              <div class="card-title">Top 10 Brand · Jumlah Listing</div>
+              <div class="card-subtitle">Brand dengan unit terbanyak di database</div>
+            </div>
+            <div class="card-badge">Dataset Statis</div>
+          </div>
+          <div class="chart-wrap tall"><canvas id="brandChart"></canvas></div>
+        </div>
+
+        <!-- Right panel: mini donut charts -->
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <!-- Transmisi donut -->
+          <div class="chart-card" style="flex:1;">
+            <div class="card-header">
+              <div class="card-title-wrap">
+                <div class="card-title">Transmisi</div>
+                <div class="card-subtitle">Manual vs Automatic</div>
+              </div>
+            </div>
+            <div class="chart-wrap" style="height:120px;"><canvas id="transmissionChart"></canvas></div>
+          </div>
+          <!-- Seller donut -->
+          <div class="chart-card" style="flex:1;">
+            <div class="card-header">
+              <div class="card-title-wrap">
+                <div class="card-title">Tipe Penjual</div>
+                <div class="card-subtitle">Individual · Dealer · Trustmark</div>
+              </div>
+            </div>
+            <div class="chart-wrap" style="height:120px;"><canvas id="sellerChart"></canvas></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOTTOM ROW: Market Overview table + Sales Total panel -->
+      <div class="charts-grid" style="margin-bottom:16px;grid-template-columns:3fr 2fr;">
+        <!-- Table -->
+        <div class="table-card">
+          <div class="table-toolbar">
+            <div class="card-title-wrap">
+              <div class="card-title" style="font-size:14px;">Data Terbaru dari Database</div>
+              <div style="font-size:11px;color:var(--text-muted);margin-top:1px;">Data statis · CarDekho Dataset</div>
+            </div>
+            <a href="dataset.html" class="btn btn-ghost" style="font-size:11px;">Lihat Semua →</a>
+          </div>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Kendaraan</th>
+                  <th>Tahun</th>
+                  <th>Harga Jual</th>
+                  <th>KM Tempuh</th>
+                  <th>BBM</th>
+                  <th>Transmisi</th>
+                  <th>Penjual</th>
+                </tr>
+              </thead>
+              <tbody id="recent-tbody">
+                <tr class="loading-row"><td colspan="7"><div class="spinner"></div><div>Memuat dari database…</div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Right panel: Sales total + chart (matches screenshot right column) -->
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <!-- Sales Total card -->
+          <div class="chart-card">
+            <div class="card-header">
+              <div class="card-title-wrap">
+                <div class="card-title">Ringkasan Pasar</div>
+                <div class="card-subtitle">Total nilai & volume</div>
+              </div>
+              <div class="card-dots"><span></span><span></span><span></span></div>
+            </div>
+            <div style="font-size:32px;font-weight:800;color:var(--text);letter-spacing:-1px;margin-bottom:4px;" id="summary-total-price">—</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-bottom:14px;">Estimasi total nilai pasar mobil bekas India</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+              <div>
+                <div style="font-size:11px;color:var(--text-muted);font-weight:700;margin-bottom:3px;text-transform:uppercase;letter-spacing:0.5px;">Unit</div>
+                <div style="font-size:22px;font-weight:800;color:var(--brand);" id="summary-units">—</div>
+                <div style="height:5px;border-radius:3px;background:var(--brand);margin-top:4px;width:70%;opacity:0.5;"></div>
+              </div>
+              <div>
+                <div style="font-size:11px;color:var(--text-muted);font-weight:700;margin-bottom:3px;text-transform:uppercase;letter-spacing:0.5px;">Brand</div>
+                <div style="font-size:22px;font-weight:800;color:var(--teal);" id="summary-brands">—</div>
+                <div style="height:5px;border-radius:3px;background:var(--teal);margin-top:4px;width:70%;opacity:0.5;"></div>
+              </div>
+            </div>
+            <div class="chart-wrap" style="height:90px;"><canvas id="sparkRevChart"></canvas></div>
+          </div>
+
+          <!-- Purchases per fuel donut summary -->
+          <div class="chart-card" style="flex:1;">
+            <div class="card-header">
+              <div class="card-title-wrap">
+                <div class="card-title">Persentase BBM</div>
+                <div class="card-subtitle">Komposisi bahan bakar</div>
+              </div>
+            </div>
+            <div id="fuel-pct-list" style="display:flex;flex-direction:column;gap:8px;">
+              <div style="text-align:center;padding:14px;color:var(--text-muted);font-size:12px;">Memuat…</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="config.js"></script>
+<script src="supabase-client.js"></script>
+<script>
+// ── Date in topbar ────────────────────────────────────────────
+(function(){
+  const d = new Date();
+  const opts = {day:'2-digit',month:'short',year:'numeric'};
+  document.getElementById('topbar-date').textContent = d.toLocaleDateString('id-ID', opts);
+})();
+
+Chart.defaults.color = '#718096';
+Chart.defaults.borderColor = 'rgba(0,0,0,0.05)';
+Chart.defaults.font.family = "'Nunito', sans-serif";
+
+const C = {
+  brand:'#667eea', brandDim:'rgba(102,126,234,0.15)',
+  teal:'#38b2ac',  tealDim:'rgba(56,178,172,0.15)',
+  amber:'#ed8936', amberDim:'rgba(237,137,54,0.15)',
+  red:'#fc8181',   redDim:'rgba(252,129,129,0.15)',
+  purple:'#9f7aea',dark:'#2d3748',gray:'#a0aec0',
+  fuel:{ Petrol:'#ed8936', Diesel:'#667eea', CNG:'#38b2ac', LPG:'#9f7aea', Electric:'#48bb78' }
+};
+
+const hamburger = document.getElementById('hamburger');
+const sidebar   = document.getElementById('sidebar');
+
+hamburger?.addEventListener('click', e => { e.stopPropagation(); sidebar?.classList.toggle('mobile-open'); });
+document.addEventListener('click', e => {
+  if (sidebar?.classList.contains('mobile-open') && !sidebar.contains(e.target) && !hamburger.contains(e.target))
+    sidebar.classList.remove('mobile-open');
+});
+
+document.addEventListener('DOMContentLoaded', async () => {
+  const db = initSupabase();
+  if (!db) { setDbStatus(false); return; }
+  setDbStatus(true);
+
+  // Fetch SEMUA data sekali, share ke semua fungsi (efisien)
+  let allData;
+  try {
+    allData = await fetchJoined([]);
+  } catch(err) {
+    setDbStatus(false);
+    showDbError('Gagal fetch data: ' + err.message);
+    return;
+  }
+
+  await Promise.all([
+    loadStats(allData),
+    loadBrandChart(allData),
+    loadFuelChart(allData),
+    loadTransmissionChart(allData),
+    loadSellerChart(allData),
+    loadPriceYearChart(allData),
+    loadRecentTable(allData),
+  ]);
+});
+
+function setDbStatus(ok) {
+  const dot = document.getElementById('db-status-dot');
+  const txt = document.getElementById('db-status-text');
+  const ld  = document.getElementById('live-dot');
+  const ll  = document.getElementById('live-label');
+  if (ok) {
+    dot.style.background = '#38b2ac'; dot.style.animation = 'pulse 2s infinite';
+    txt.textContent = 'Terhubung';
+    ld.style.background  = '#38b2ac'; ld.style.animation = 'pulse 2s infinite';
+    ll.textContent = 'Dataset Statis';
+  } else {
+    dot.style.background = '#fc8181'; dot.style.animation = 'none';
+    txt.textContent = 'Gagal terhubung';
+    ld.style.background  = '#fc8181'; ld.style.animation = 'none';
+    ll.textContent = 'DB Error';
+  }
+}
+
+// ── STATS ────────────────────────────────────────────────────
+async function loadStats(allData) {
+  try {
+    const total    = allData.length;
+    const avgPrice = total ? Math.round(allData.reduce((s,r)=>s+r.selling_price,0)/total) : 0;
+    const maxPrice = total ? Math.max(...allData.map(r=>r.selling_price)) : 0;
+    const totalVal = allData.reduce((s,r)=>s+r.selling_price,0);
+    const avgKm    = total ? Math.round(allData.reduce((s,r)=>s+r.km_driven,0)/total) : 0;
+
+    const brandCounts = {};
+    allData.forEach(r=>{ brandCounts[r.brand]=(brandCounts[r.brand]||0)+1; });
+    const topBrand  = Object.entries(brandCounts).sort((a,b)=>b[1]-a[1])[0];
+    const brandCount = Object.keys(brandCounts).length;
+
+    animateCounter('stat-total', total);
+    setText('stat-total-sub', `${total.toLocaleString()} records dalam database`);
+    setText('stat-avg-price', formatRupee(avgPrice));
+    setText('stat-max-price', `Max: ${formatPrice(maxPrice)}`);
+    animateCounter('stat-avg-km', avgKm);
+    setText('stat-top-brand', topBrand ? topBrand[0] : '—');
+    setText('stat-top-brand-count', topBrand ? `${topBrand[1].toLocaleString()} unit terdaftar` : '');
+
+    animateCounter('big-total', total);
+    setText('big-total-sub', `${total.toLocaleString()} records aktif`);
+    setText('big-price', formatRupee(avgPrice));
+    setText('big-price-sub', `Max: ${formatPrice(maxPrice)}`);
+    animateCounter('big-km', avgKm);
+
+    const fmt = v => v>=1e12?'₹'+(v/1e12).toFixed(1)+'T':v>=1e9?'₹'+(v/1e9).toFixed(1)+'B':v>=1e7?'₹'+(v/1e7).toFixed(1)+'Cr':'₹'+v.toLocaleString('en-IN');
+    setText('summary-total-price', fmt(totalVal));
+    setText('summary-units', total.toLocaleString('en-IN'));
+    setText('summary-brands', brandCount);
+
+    drawSparkLine('sparkTotalChart', [42,56,48,64,73,68,82,91,85,total/50||95], C.brand);
+    drawSparkLine('sparkPriceChart', [30,35,28,40,38,42,39,44,41,avgPrice/10000||45], C.amber);
+    drawSparkLine('sparkKmChart',    [60,55,62,58,65,60,57,63,59,avgKm/1000||62], C.red, true);
+    drawSparkLine('sparkRevChart',   [20,35,28,45,40,52,47,60,55,70], C.teal);
+
+  } catch(err) {
+    console.error('Stats error:', err);
+    showDbError('Gagal memuat stats: '+err.message);
+  }
+}
+
+function drawSparkLine(id, data, color, fill=true) {
+  const ctx = document.getElementById(id);
+  if (!ctx) return;
+  new Chart(ctx, {
+    type:'line',
+    data:{
+      labels: data.map((_,i)=>i),
+      datasets:[{
+        data, borderColor:color,
+        backgroundColor: fill ? color+'22' : 'transparent',
+        borderWidth:2, pointRadius:0, tension:0.4, fill:true
+      }]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{enabled:false}},
+      scales:{ x:{display:false}, y:{display:false} },
+      elements:{line:{borderCapStyle:'round'}}
+    }
+  });
+}
+
+// ── BRAND CHART ──────────────────────────────────────────────
+async function loadBrandChart(allData) {
+  try {
+    const counts = {};
+    allData.forEach(r=>{ counts[r.brand]=(counts[r.brand]||0)+1; });
+    const sorted = Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,10);
+    const barColors = sorted.map((_,i)=> i===0?C.brand : i<3?C.teal : '#cbd5e0');
+
+    new Chart(document.getElementById('brandChart'), {
+      type:'bar',
+      data:{
+        labels: sorted.map(([b])=>b),
+        datasets:[{
+          label:'Jumlah Mobil',
+          data: sorted.map(([,c])=>c),
+          backgroundColor: barColors,
+          borderRadius:6, borderSkipped:false
+        }]
+      },
+      options:{
+        responsive:true, maintainAspectRatio:false,
+        plugins:{
+          legend:{display:false},
+          tooltip:{...tooltipStyle(), callbacks:{label:ctx=>' '+ctx.parsed.y.toLocaleString()+' unit'}}
+        },
+        scales:{
+          x:{...scaleStyle(), ticks:{...tickStyle(), maxRotation:25}},
+          y:{...scaleStyle(), ticks:{...tickStyle()}, beginAtZero:true, grid:{color:'rgba(0,0,0,0.05)'}}
+        }
+      }
+    });
+  } catch(err) { console.error('Brand chart error:', err); }
+}
+
+// ── FUEL CHART ───────────────────────────────────────────────
+async function loadFuelChart(allData) {
+  try {
+    const counts = {};
+    allData.forEach(r=>{ counts[r.fuel]=(counts[r.fuel]||0)+1; });
+    const total  = allData.length;
+    const labels = Object.keys(counts);
+    const values = Object.values(counts);
+
+    new Chart(document.getElementById('fuelChart'), {
+      type:'doughnut',
+      data:{
+        labels,
+        datasets:[{
+          data:values,
+          backgroundColor: labels.map(l=>C.fuel[l]||C.gray),
+          borderColor:'#fff', borderWidth:3, hoverOffset:8
+        }]
+      },
+      options:{
+        responsive:true, maintainAspectRatio:false, cutout:'72%',
+        plugins:{
+          legend:{display:false},
+          tooltip:{...tooltipStyle(), callbacks:{label:ctx=>` ${ctx.label}: ${((ctx.parsed/total)*100).toFixed(1)}%`}}
+        }
+      }
+    });
+
+    const row = document.getElementById('fuel-legend-row');
+    if (row) {
+      row.innerHTML = labels.map((l,i)=>`
+        <div style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:var(--text-muted);">
+          <div style="width:9px;height:9px;border-radius:2px;background:${C.fuel[l]||C.gray};"></div>
+          ${l} <span style="color:var(--text);">${((values[i]/total)*100).toFixed(0)}%</span>
+        </div>`).join('');
+    }
+
+    const list = document.getElementById('fuel-pct-list');
+    if (list) {
+      const sorted = labels.map((l,i)=>({l,v:values[i]})).sort((a,b)=>b.v-a.v);
+      list.innerHTML = sorted.map(({l,v})=>{
+        const pct = ((v/total)*100).toFixed(1);
+        return `<div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:3px;">
+            <span style="color:var(--text);">${l}</span>
+            <span style="color:var(--text-muted);">${pct}%</span>
+          </div>
+          <div style="height:5px;border-radius:3px;background:var(--border);overflow:hidden;">
+            <div style="width:${pct}%;height:100%;background:${C.fuel[l]||C.gray};border-radius:3px;"></div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+  } catch(err) { console.error('Fuel chart error:', err); }
+}
+
+// ── TRANSMISSION CHART ───────────────────────────────────────
+async function loadTransmissionChart(allData) {
+  try {
+    const counts = {};
+    allData.forEach(r=>{ counts[r.transmission]=(counts[r.transmission]||0)+1; });
+    const labels = Object.keys(counts), values = Object.values(counts);
+
+    new Chart(document.getElementById('transmissionChart'), {
+      type:'doughnut',
+      data:{
+        labels,
+        datasets:[{data:values, backgroundColor:[C.amber, C.brand], borderColor:'#fff', borderWidth:3, hoverOffset:6}]
+      },
+      options:{
+        responsive:true, maintainAspectRatio:false, cutout:'68%',
+        plugins:{
+          legend:{position:'bottom',labels:{color:'#718096',font:{family:"'Nunito',sans-serif",size:10,weight:'700'},padding:8,boxWidth:9}},
+          tooltip:{...tooltipStyle()}
+        }
+      }
+    });
+  } catch(err) { console.error('Trans chart error:', err); }
+}
+
+// ── SELLER CHART ─────────────────────────────────────────────
+async function loadSellerChart(allData) {
+  try {
+    const counts = {};
+    allData.forEach(r=>{ counts[r.seller_type]=(counts[r.seller_type]||0)+1; });
+    const labels = Object.keys(counts), values = Object.values(counts);
+
+    new Chart(document.getElementById('sellerChart'), {
+      type:'doughnut',
+      data:{
+        labels,
+        datasets:[{data:values, backgroundColor:[C.teal, C.brand, C.purple], borderColor:'#fff', borderWidth:3, hoverOffset:6}]
+      },
+      options:{
+        responsive:true, maintainAspectRatio:false, cutout:'68%',
+        plugins:{
+          legend:{position:'bottom',labels:{color:'#718096',font:{family:"'Nunito',sans-serif",size:10,weight:'700'},padding:8,boxWidth:9}},
+          tooltip:{...tooltipStyle()}
+        }
+      }
+    });
+  } catch(err) { console.error('Seller chart error:', err); }
+}
+
+// ── PRICE / YEAR LINE CHART ──────────────────────────────────
+async function loadPriceYearChart(allData) {
+  try {
+    const byYear = {};
+    allData.forEach(r=>{
+      const y = r.year;
+      if (!y) return;
+      if (!byYear[y]) byYear[y]={sum:0,count:0};
+      byYear[y].sum   += r.selling_price;
+      byYear[y].count += 1;
+    });
+    const years  = Object.keys(byYear).sort();
+    const prices = years.map(y=>Math.round(byYear[y].sum/byYear[y].count));
+    const vols   = years.map(y=>byYear[y].count);
+
+    new Chart(document.getElementById('priceYearChart'), {
+      type:'line',
+      data:{
+        labels:years,
+        datasets:[
+          {
+            label:'Rata-rata Harga',
+            data:prices,
+            borderColor:C.brand, backgroundColor:'rgba(102,126,234,0.08)',
+            borderWidth:2.5, pointRadius:3, pointBackgroundColor:C.brand,
+            pointBorderColor:'#fff', pointBorderWidth:2, tension:0.4, fill:true, yAxisID:'y'
+          },
+          {
+            label:'Volume Listing',
+            data:vols,
+            borderColor:C.amber, backgroundColor:'rgba(237,137,54,0.08)',
+            borderWidth:2, pointRadius:2, pointBackgroundColor:C.amber,
+            pointBorderColor:'#fff', pointBorderWidth:1.5, tension:0.4, fill:true, yAxisID:'y2'
+          }
+        ]
+      },
+      options:{
+        responsive:true, maintainAspectRatio:false,
+        interaction:{mode:'index',intersect:false},
+        plugins:{
+          legend:{display:false},
+          tooltip:{...tooltipStyle(), callbacks:{
+            label:ctx => ctx.datasetIndex===0
+              ? ' Avg: '+formatPrice(ctx.parsed.y)
+              : ' Volume: '+ctx.parsed.y+' unit'
+          }}
+        },
+        scales:{
+          x:{...scaleStyle(), ticks:{...tickStyle(), maxRotation:45},grid:{color:'rgba(0,0,0,0.04)'}},
+          y:{...scaleStyle(), ticks:{...tickStyle(), callback:v=>'₹'+(v/1000).toFixed(0)+'k'}, beginAtZero:false, position:'left',grid:{color:'rgba(0,0,0,0.04)'}},
+          y2:{...scaleStyle(), ticks:{...tickStyle()}, beginAtZero:true, position:'right', grid:{drawOnChartArea:false}}
+        }
+      }
+    });
+  } catch(err) { console.error('PriceYear error:', err); }
+}
+
+// ── RECENT TABLE ─────────────────────────────────────────────
+async function loadRecentTable(allData) {
+  const tbody = document.getElementById('recent-tbody');
+  try {
+    // Ambil 8 terakhir dari cache (sudah flat)
+    const data = [...allData].sort((a,b)=>b.id-a.id).slice(0,8);
+    if (!data.length) { setEmpty('recent-tbody','Belum ada data'); return; }
+
+    tbody.innerHTML = data.map(r => `
+      <tr>
+        <td>
+          <div class="car-name" title="${r.name}">${r.name}</div>
+          <div class="car-brand">${r.brand}</div>
+        </td>
+        <td style="font-weight:800;color:var(--text);">${r.year||'—'}</td>
+        <td><span class="price-value">${formatPrice(r.selling_price)}</span></td>
+        <td style="color:var(--text-muted);font-size:12px;">${formatNumber(r.km_driven)} km</td>
+        <td><span class="badge badge-${(r.fuel||'').toLowerCase()}">${r.fuel}</span></td>
+        <td><span class="badge badge-${(r.transmission||'').toLowerCase()}">${r.transmission}</span></td>
+        <td><span class="badge badge-${(r.seller_type||'').toLowerCase().replace(/\s/g,'')}">${r.seller_type}</span></td>
+      </tr>
+    `).join('');
+  } catch(err) {
+    console.error('Recent table error:', err);
+    setEmpty('recent-tbody','Gagal memuat data dari database');
+    showDbError('Tabel recent: '+err.message);
+  }
+}
+
+</script>
+</body>
+</html>
